@@ -71,6 +71,15 @@ Network protocols are like the rules of etiquette in different social situations
      * Quick, standardized messages for urgent situations.
      * Everyone knows how to respond to these special messages.
 
+## Protocol Suites / Protocol Stacks / Network Models
+
+These are different stacks of protocols for data transfer. These **are not** protocols themselves but are frameworks built up of protocols. Different stacks are used for different purposes and to fulfill different requirements in their data transfer.
+
+**Some common ones:**
+- **TCP/IP Stack** *(Commonly used for internet communications)*
+- **OSI Model** *(Mostly theoretical and used for learning purposes)*
+- **Bluetooth Protocol Stack** *(Used specifically for Bluetooth technology)*
+
 ## Protocol Layers:
 
 1. The Physical Layer
