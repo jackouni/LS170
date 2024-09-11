@@ -80,11 +80,20 @@ These are different stacks of protocols for data transfer. These **are not** pro
 - **OSI Model** *(Mostly theoretical and used for learning purposes)*
 - **Bluetooth Protocol Stack** *(Used specifically for Bluetooth technology)*
 
-## Protocol Layers: (for OSI)
+## Protocol Layers for TCP/IP:
+1. Application 
+2. Transport
+3. Internet
+4. Link
 
-1. The Physical Layer
-2. The Data Link Layer
-3. Network Layer
+## Protocol Layers for OSI:
+1. Application 
+2. Presentation 
+3. Session
+4. Transport
+5. Network
+6. Data Link
+7. Physical
 
 ## PDU (Protocol Data Units)
 
@@ -174,6 +183,23 @@ This is when data is sent directly to the host machine's socket. Incoming date t
 ### Connection-oriented
 
 This is when Socket objects are instantiated to setup a dedicated connection between the recipient host's process and the source host's process. This is generally considered more reliable as it established a dedicated connection for each session between sockets. Compared to connectionless it might be as fast though.
+
+## TCP (Transmission Control Protocol)
+
+Is a protocol designed for the Transport layer in networking.
+
+Generally, it's very reliable at the cost of performance potentially.
+
+### TCP Segments
+
+These are the PDU's for this protocol layer.
+
+## UDP (User Datagram Protocol)
+
+Is a proto ol designed for the Transport layer in networking.
+
+Generally, it's considered to be better in performance at the cost of reliability.
+
 
 ---
 ---
