@@ -25,16 +25,21 @@ Human: This is the connection between a system of human beings that are capable 
 
 ### LAN
 
-This is a more localized area in which devices are connected and can communicate in more centralized and direct ways.
+Digital: This is a more localized area in which devices are connected and can communicate in a more centralized and direct way.
 
-This is a group of humans in a localized area who can communicate more directly between eachother.
-
-### Routers / Local Messengers
-
-These are devices that recieve messages from other devices and pass the messages along to other devices
+Human: This is a group of humans in a localized area who can communicate in a more centralized and direct way.
 
 ### WLAN
 
-When a local device sends a message to another specialized device that transmits that message through radio waves to other devices in the local area network.
+Digital: Is the same as a LAN, except its a network that connects devices through the use of radio waves instead of physical wires.
 
-When a local person sends a message to a local messenger (office assistant or intern) to pass on the message to other people in the local area network.
+Human: Is the same as a LAN, except its a network that communicates to people through the use of a phone call or intercom instead of running over to the person to devliver communications/messages.
+
+### Routers / Local Messengers
+
+Digital: These are devices that receive messages from other devices and decide the best path to pass the messages along to the respective receiving device. Routers act as a way to connect different networks.
+
+Human: These are local persons who receive messages from other people and decide the best way to pass the messages along to their respective recipient. Local messengers act as a way to communicate between other networks of humans.
+
+
+### Switches
