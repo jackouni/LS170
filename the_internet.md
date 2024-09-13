@@ -168,7 +168,7 @@ The Transport Layer contains the destination and source port numbers in its head
 
 To establish *end-points* for the data being transferred, the IP address of the recipient host and the port number are combined. This will result in a number looking something like this: `10.14.0.2:55530` 
 
-This number will help to identify where the data needs to be sent to. At a high level, this *"end-point address"* is generally known as a ***socket***.
+This number will help to identify where the data needs to be sent to. At a high level, this *"end-point address"* is generally known as a ***socket***. [[asdasd]](mental_model.md)
 
 ## Socket
 

@@ -43,3 +43,5 @@ Human: These are local persons who receive messages from other people and decide
 
 
 ### Switches
+
+[[The Internet]](the_internet.md)  
