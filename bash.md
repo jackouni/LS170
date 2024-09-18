@@ -81,3 +81,39 @@ The above bash file will output: `21 is greater than 20`.
 
 ## Functions
 
+Functions in Bash can be declared by giving a name for the function followed by parenthesis and the code of the function contained between curly braces.
+
+**Here's an example to demonstrate:**
+
+```bash
+greet () {
+  echo "Hello $1"
+}
+
+greet "Peter"
+```
+
+**The above code when exectuted will output:** `Hello Peter`
+
+In bash, functions by default of lenient in arity, meaning, you can pass any number of arguments to it a function and it will not throw an error at you. In bash, arguments can be accessed via `$1`, `$2`, `$3`, and so on...
+
+The first argument passed is referenced by `$1` and each subsequent argument is referenced by following numbers `$2`, `$3`, and so on...
+
+**To demonstrate:**
+
+```bash
+greet () {
+  echo "Hello $1"
+  echo "Hello $3"
+  echo "Hello $2"
+}
+
+greet "Peter" "Paul" "Jared"
+```
+
+**The above file, when executed will output:**
+```
+Hello Peter
+Hello Jared
+Hello Paul
+```
