@@ -206,7 +206,7 @@ Generally, it's considered to be better in performance at the cost of reliabilit
 
 Connecting clients and servers through the internet is a very insecure process. TCP is not very secure in the fact that messages can be intersected in transit and taken or modified. This leaves a massive security risk for applications that handle sensitive data to be transmitted between client and server. This is where TLS comes in.
 
-At a high level, TLS is sort of like a protocol that comes afer TCP. Once a connection is established with TCP, TLS works on creating security in this connection. Generally, TLS encrypts data sent between clients and servers using asymetrical encrytion, using a public key and private key.
+At a high level, TLS is sort of like a protocol that comes afer TCP. Once a connection is established with TCP, TLS works on creating security in this connection. Generally, TLS encrypts data sent between clients and servers using a cominbation of asymetrical and symetrical encrytion, using a public key and private key.
 
 TLS sets up this security through a *TLS handshake*, that is, A message sent from client to server saying *"Hello"* (figuriatively speaking), this is called the `ClientHello`. Once the server recieves the `ClientHello` it sends back a `ServerHello`. This `ServerHello` will include information like the cipher suite to be used, its' public key and other relevant data. THe server also sends a `ServerHelloDone` which lets the client know that the server has done it's first part of the handshake.
 
