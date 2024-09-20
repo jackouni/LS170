@@ -6,13 +6,13 @@ A network is a system of nodes/devices that send and transfer information betwee
 
 At the most basic level, this could be connecting two computers to each other through a cable, and confirguring the computers to exchange information with each other through the use of the cable.
 
----
+---------
 
 ### LAN (Local Area Network)
 
 This is a network of devices that are located locally, that is, there are a bunch of devices in an area that communicate through a central system like a hub or switch.
 
----
+---------
 
 ### WLAN (Wireless LAN)
 
@@ -24,9 +24,9 @@ Are devices used to connect devices across networks. Works on Layer 3. Routers h
 
 Are devices used to connect devices in the same network. Works on Layer 2. Switches use MAC addresses to identify what devices in its local network to send data to.
 
----
----
----
+---------
+---------
+---------
 
 ## What is a Protocol?
 
@@ -168,7 +168,7 @@ The Transport Layer contains the destination and source port numbers in its head
 
 To establish *end-points* for the data being transferred, the IP address of the recipient host and the port number are combined. This will result in a number looking something like this: `10.14.0.2:55530` 
 
-This number will help to identify where the data needs to be sent to. At a high level, this *"end-point address"* is generally known as a ***socket***. [[asdasd]](mental_model.md)
+This number will help to identify where the data needs to be sent to. At a high level, this *"end-point address"* is generally known as a ***socket***.
 
 ## Socket
 
@@ -196,11 +196,54 @@ These are the PDU's for this protocol layer.
 
 ## UDP (User Datagram Protocol)
 
-Is a proto ol designed for the Transport layer in networking.
+Is a protocol designed for the Transport layer in networking.
 
 Generally, it's considered to be better in performance at the cost of reliability.
 
+---------
 
----
----
----
+## TLS (Transport Layer Security)
+
+Connecting clients and servers through the internet is a very insecure process. TCP is not very secure in the fact that messages can be intersected in transit and taken or modified. This leaves a massive security risk for applications that handle sensitive data to be transmitted between client and server. This is where TLS comes in.
+
+At a high level, TLS is sort of like a protocol that comes afer TCP. Once a connection is established with TCP, TLS works on creating security in this connection. Generally, TLS encrypts data sent between clients and servers using asymetrical encrytion, using a public key and private key.
+
+TLS sets up this security through a *TLS handshake*, that is, A message sent from client to server saying *"Hello"* (figuriatively speaking), this is called the `ClientHello`. Once the server recieves the `ClientHello` it sends back a `ServerHello`. This `ServerHello` will include information like the cipher suite to be used, its' public key and other relevant data. THe server also sends a `ServerHelloDone` which lets the client know that the server has done it's first part of the handshake.
+
+Once recieved by the client, the client will send their public key to the server along with a some other data like `ClientKeyExchange` and `ClientCipherSpec`. The client also sends a `Finished` to let the server know that it's done.
+
+Once the server recieves this, its `ChangeCipherSpec` and `Finished` back to the client. This now establishes that both sides have done the necessary parts in order to have their encrypted connection.
+
+---------
+
+## Parts of a Server
+
+### Web Server
+
+### Application Server
+
+### Data Store
+
+---------
+
+## HTTP (Hypertext Transfer Protocol)
+
+This is a protocol used to standardize how data is sent between client and server. HTTP specifies a way in which data should be formatted and sent between two devices. The purpose of this is to create a more scalable and standard system for transmitting data.
+
+The PDU for HTTP is known as a *message*. Messages are simple text files formatted in such a way to be correctly rendered. HTTP messages will consist of:
+
+1. Start Line
+2. Headers
+3. Empty Line
+4. Body
+
+HTTP request message can include the HTTP method, the URI, the HTTP version to use, etc... There are other fields that are also sent with an HTTP message but these are the most common.
+
+The HTTP response message will most likely include an HTTP version, status code and reason phrase. The HTTP response will often include a body that will include relevant data.
+
+---------
+
+## URLs and URIs
+---------
+---------
+---------

@@ -63,7 +63,7 @@ Given the desire for having *state* and more dynamic user experiences with web a
 
 ### Cookies
 
-A **cookie** is stored data for a specific domain or website. Cookies are stored on the client side in the user's browser. The data stored in a cookie is usually associated with the state of the domain or website in some way. 
+A **cookie** is used to store data for a specific domain or website. Cookies are stored on the client side in the user's browser. The data stored in a cookie is usually associated with the state of the domain or website in some way. 
 
 #### Flow of Cookies...
 
@@ -200,7 +200,7 @@ To include multiple queries, a user can separate query parameters with `&`.
 
 ## Security
 
-### HTTPS
+### HTTPS 
 
 ### Same-origin Policy
 

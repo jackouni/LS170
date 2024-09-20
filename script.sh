@@ -1,7 +1,1 @@
-greet () {
-  echo "Hello $1"
-  echo "Hello $3"
-  echo "Hello $2"
-}
-
-greet "Peter" "Paul" "Jared"
+cat simple_http_server/www/leopard.html
