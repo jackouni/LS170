@@ -219,15 +219,124 @@ HTTP within the client-server model is used to establish different methods for a
 - Be able to construct a valid URL
 - Have an understanding of what URL encoding is and when it might be used
 
+### What is a URL?
+
+A URL (*Uniform Resource Locator*) is a sub-type of URI (*Uniform Resource Identifier*) and is mainly associated with the use of HTTP. The URL is a string of characters in a specific order used to identify and locate a resource across the internet. The URL can be thought of as the home address equvalent for the web. 
+
+In context to HTTP, a URL is sent with the HTTP request from client to server.
+
+**Once a server receives the HTTP request, it can use the URL to locate resources like:**
+- API end points
+- Static files (`.csv`, `.js`, `.css`, `.html`, images, video and etc)
+- Streamed media
+
+**A server can also use a URL for:**
+- Determining how to process the request (through query parameters)
+- Generating dynamic content using server-side scripts/files
+
 ### Parts of a URL
+
+1. **Example URL referenced:**
+`http://www.example.com:88/home?item=book`
+
+2. **Scheme/Protocol** -> `http`
+
+This part of the URL is used to identify what protocol to use. In this example, the HTTP protocol is to be used.
+
+3. **Host** -> `www.example.com`
+
+This part of the URL tells the client where the resource is located.
+
+4. **Port** -> `:88`
+
+This specifies what port the resource will be located. If no port number is given the default port is `80` for HTTP (the default port for HTTPS is `443`).
+
+5. **Path** -> `/home`
+
+This is extremely simlar to file paths on Unix systems. The path specifies what path to a given resource on a host. Providing a path is optional. In this example, the path will locate the `home` directory on the host server.
+
+6. **Query String** -> `?item=book`
+
+Query strings are optional key-values that are used by a server to help determine what next actions to take. Query parameters are often used by a server to search or look-up resources in the system and to generate dynamic responses. 
+
+Query strings are started with a `?` followed by key, followed by an `=` to separate the query key from the query value.
+
+To have multiple query strings, each key-value can be separated by `&`.
+
+When using spaces
+
+### Parts of a Query String
 
 ### Create a Valid URL
 
+The URL format: `scheme://hostname.com:port/path?query=value`
+
+**For example:** `https://example.com:80/about?search=thing`
+
 ### What is URL Encoding?
+
+URL encoding is a method for formatting, transmitting and interpreting URLs. This encoding makes sure that URLs can be interpreted and processed correctly across different use cases and scenarios. With a way for how URLs are interpreted by clients and servers, errors and inconsistencies can be mitigated, while still allowing flexibility for using special characters in different contexts within a URL.
+
+**URL encoding allows for...**
+- Specifying how to interpret certain special characters in a URL
+- How to represent characters that are not allowed in a URL
+- How to handle non-ASCII characters
+- How to handle ASCII characters outside of the base ASCII subset for URLs
+- Using special characters
+
+Certain special characters can be represented using a `%` followed by a specific hexadecimal code. 
+
+Here are some examples:
+- Spaces: Encoded `%20` or `+`
+- '&': Encoded as '%26'
+- '=': Encoded as '%3D'
+- '/': Encoded as '%2F'
+- '?': Encoded as '%3F'
+
+**URL encoding use cases:**
+- For special characters in query parameters
+- Using non-ASCII characters in a URL
+- When using special characters outside of their special contexts/meanings
+- Including a wider range of characters in URLs.
+
+It's worth noting that most browsers will automatically encode URLs.
+
+**Here's an example of URL encoding:**
+
+*Original URL:* `http://johndoe.com/path?coin=Lite Coin & Bitcoin`
+*Encoded URL:* `http://johndoe.com/path?coin=Lite%20Coin%20%26%20Bitcoin`
 
 ### What Problem Does URL Encoding Solve?
 
+URL encoding solves the problem of having inconsistencies and errors between servers when not having standardized methods for formatting and interpreting URLs. By having URL encoding there's a method that servers can follow to make sure URLs are read the same across different domains, contexts and scenarios.
+
+**Problems Solved With URL Encoding:**
+
+- Lack of characters that can be used:
+Use of characters outside of the ASCII subset of characters for URLs
+
+- Not being able to add more context to a URL:
+Being able to use special characters in URLs without them being interpreted in their "regular" context
+
+- No use of special characters outside of special contexts
+A way to use special characters outside of their special context
+
+- Cross server inconsistencies:
+Provides a standardized method for processing and formatting URLs across different servers
+
+- Not being able to use Non-English characters and symbols
+Gives a way to use non-english letters and symbols in a URL
+
+- Breaking the URL structure when using spaces and other punctuation
+Syntax that can be used to represent spaces and punctuation without breaking a URLs structure
+
 ### When Would URL Encoding Be Used?
+
+- Including special characters in a URL outside of their special contexts
+- Needing to provide additional context in query parameters 
+- Using ASCII characters outside of the URL subset of ASCII characters
+- Use of non-english letters in a URL 
+- Having spaces or other punctuation in a URL
 
 ------------
 ------------
@@ -242,7 +351,11 @@ Understand what is meant by 'state' in the context of the web, and be able to ex
 
 ### What Are HTTP Requests?
 
+An HTTP request is a request made from a client to a server. This request has an HTTP method attached to it that specifies what kind of response to give and what kind of processing to perform on the server's end. The information in the HTTP PDU will be encapsulated and sent down the networking layers to the transport layer.
+
 ### What Are HTTP Responses?
+
+HTTP responses are data sent back to a client after an HTTP request. The HTTP response can include assets/resources, a status code, cookies or etc... When the client recieves the HTTP response, the HTTP PDU will be decapsulated through each layer of the networking model starting from the data-link/physical layer up to the application layer.
 
 ### How Are HTTP Requests and Responses Used Together?
 
