@@ -199,6 +199,8 @@ HTTP within the client-server model is used to establish different methods for a
 
 ### What is TCP?
 
+TCP (Transmission Control Protocol) is a protocol used at the transport layer to establish a connection between server and client.
+
 ### What is UDP?
 
 ### Similarities and Differences of TCP and UDP?
@@ -206,6 +208,40 @@ HTTP within the client-server model is used to establish different methods for a
 ### What is the TCP Three-way Handshake?
 
 ### What Problem Does the TCP Three-way Handshake Solve?
+
+The three-way handshake solves a few problems for network reliability.
+
+- **Problem 1: Is a Message Received By a Recipient?**
+The first problem is that a message can be sent across a channel but may become corrupt or not make it to the recipient. This is a problem because the sender may never know if their message successfully made it to the recipient. Because of this dilemma, if the sender decides to send the next message it may be out of order or out of context from the recipient not recieving the first message, rendering the next message unreliable or un-intepretable. The sender may also just decide not to send the next message 
+
+
+- **Solution 1: Message Acknowledgement From Recipient**
+The solution here could be to send a message and have the recipient send an *acknowledgement* back, that way the sender knows that the first message made it to the recipient, and that it would be appropriate to send the next message. The sender can also know that the next message will make sense with the context of the first message being received by the recipient.
+
+
+- **Problem 2: Did an Acknowledgement Become Corrupted?**
+The problem with *solution 1 on it's own* is that the first message or the acknowledgement may become corrupt or lost in transit. This way the recipient never receives the acknowledgement. This breaks the system of reliability, now the sender doesn't know if the recipient ever got their first message and doesn't know if they should send the next message. This now leads to the original problem of an unreliable or un-intepretable message being sent.. 
+
+
+- **Solution 2: "Time-outs"**
+A rule is enacted that states: *"If the acknowledgement is not received in a specified amount of time, resend the first message"*
+Now, if the first message is lost or corrupted, the sender waits a certain amount of time to resend it and hopefully gets an acknowledgement within the specified time frame, to confirm it got delivered this time. Like wise, if the ackonwledgement is lost or corrupted in transit, the sender can follow the same rule and resend the first message.
+
+
+- **Problem 3: Duplicates**
+Let's say the recipient receives the first message and sends the acknowledgement. As the acknowledgement is on its way the time frame for the acknowledgement expires and times-out. Now, the recipient resends the first message again. Whether the ackonwledgement gets corrupted, lost or times-out the recipient in this scenario is likely to receive a duplicate of the first message.
+
+
+- **Solution 3: Sequence Numbers**
+The solution to the last problem is for the sender to send a *sequence number* with the first message. This sequence number can be thought of as a unique ID for a message, it also helps the recipient determine its order within the other received messages. Now if the acknowledgement times-out or is lost or corrupted, the sender can send the first message again with the exact same sequence number. If the receiver receives the duplicate message they can check the sequence number and know that it's a duplicate and send another acknowledgement.
+
+After receiving the ackonwledgement the sender can send the next message.
+
+This is essentially the thee-way handshake of TCP.
+
+This protocol makes teh connection and message sending reliable.
+
+It's important to note that in use, messages aren't sent 1-by-1 after each acknowledgement but are sent altogether or in consecutive order. This makes the system more effient, and the reliability is still kept by using the same three-way handshake for each message. With the sequence number the order of these messsages can also be made on the receiver's end even if some messages make it there faster or slower than others. This is known as  *pipe-lining*. There are different pipe-lining techniques, but this is beyond the scope of this lesson.
 
 ### What is Flow Control?
 
@@ -338,8 +374,35 @@ Syntax that can be used to represent spaces and punctuation without breaking a U
 - Use of non-english letters in a URL 
 - Having spaces or other punctuation in a URL
 
+### Explanation of URL encoding:
+
+URL encoding (also known as percent encoding) is a method for formatting and interpreting a URL in order to avoid errors, breaking of URL syntax, miscommunications with URLs and allowing for more context and information to be given through a URL.
+
+**Here are some problems that URL encoding addresses:**
+
+1. Problem: Not being able to use spaces and other punctuation without breaking the URL syntax.
+
+URL encoding allows for the use of `%` syntax in order to represent spaces and punctuations in a URL.
+
+**Example:**
+`%20` and `+` can be used to represent spaces.
+
+2. Problem: No way to give more context and information through a URL
+
+  URL encoding gives a way for extra context to be given through a URL through the use of special characters in certain sections of a URL. A good example of this is query parameters. Query parameters are designated with the use of the special character `?` followed by key-value queries, where each key-value is separated by special character `=` and each query is separated by special character `&`.
+
+3. Problem: Needing global inclusivity
+
+  URL encoding allows for the use of non-english characters and symbols without breaking URL syntax. Again this is *usually* done through the use of specific `%` syntax. By allowing this, URLs become more inclusive to other nations and people across the globe.
+
+4. Problem: Wanting to use ASCII characters outside of the subset of ASCII characters defined for URL syntax
+
+  URL encoding, again, allows for the use ASCII characters outside of the subset of ASCII characters defined for URL syntax through the use of specific `%` syntax.
+
+
 ------------
 ------------
+
 
 # HTTP and the Request/Response Cycle
 - Be able to explain what HTTP requests and responses are, and identify the components of each
@@ -349,31 +412,119 @@ Understand what is meant by 'state' in the context of the web, and be able to ex
 - Explain the difference between GET and POST, and know when to choose each
 - Have a basic understanding of the asynchronous nature of AJAX, and the kinds of features that it enables for web apps.
 
-### What Are HTTP Requests?
+### What are HTTP Requests?
 
-An HTTP request is a request made from a client to a server. This request has an HTTP method attached to it that specifies what kind of response to give and what kind of processing to perform on the server's end. The information in the HTTP PDU will be encapsulated and sent down the networking layers to the transport layer.
+HTTP requests is data that is sent by a client to the application layer of a server in order to determine what kind of response a server should give back to the client. HTTP requests include a header and can sometimes include a body. Headers include fields with associated values, that are used to help the server decide what kind of response to give back. 
 
-### What Are HTTP Responses?
+The first line of an HTTP request generally includes the HTTP method, followed by the URL path to the resource being requested, and followed by the HTTP version being used. The HTTP method defines what sort of processing a server should do upon receiving the request and what certain resources and data need to be included in a response. Some common HTTP methods include `GET`, `POST`, `PUT` and `DELETE` (to name a few).
 
-HTTP responses are data sent back to a client after an HTTP request. The HTTP response can include assets/resources, a status code, cookies or etc... When the client recieves the HTTP response, the HTTP PDU will be decapsulated through each layer of the networking model starting from the data-link/physical layer up to the application layer.
+**Some common header fields are:**
+
+1. `Cookie`
+  This is a piece of data used to help simulate "state" in the session between client and server. 
+
+2. `Host`
+  This is used to determine the host that the request is being sent to.
+
+There are more headers that can be sent with an HTTP request, but these are some of the more important ones.
+
+### What are HTTP Responses?
+
+An HTTP response is the response a server gives to a client following an HTTP request. Reponses contain a body that usually includes resources/assets requested by the HTTP request and headers to give additional information to the client about the request.
+
+The first line of an HTTP response includes theversion of HTTP used, followed by status code and status message. Status codes are numbered codes to identify the high-level results of an HTTP request. For example, a `200` status code means the requested resources was found and returned in the response. Whereas a `404` status code means the requested resource was not found. And a `301` status code means the requested resource was not at the requested URL path/location, but has been moved to another URL path on the server.
+
+**Some common header fields are:**
+
+1. `Date`
+  Used to specify what date the response was given on.
+
+2. `set-cookie`
+  Used to set the "Cookie" in the client in order to better simulate stateful-ness within a user's session.
+
+3. `content-type`
+  Used to define what methods to use and what encoding to use with the content being given back. It also tells the client what type of content is in the body of the response.
 
 ### How Are HTTP Requests and Responses Used Together?
 
+HTTP requests are used to **request** data like resources and information from a server. HTTP requests can also instruct a server to perform certain actions (`PUT`, `DELETE` and `POST` as examples). A server will then give a **response**. This response may contain resources requested and/or relevant information for the client. A response could also include information about why a request for a resource wasn't necessarily fulfilled. HTTP is a request-response cycle, where a client makes a request and the server responds with either what the client *"asked for"* and/or relevant information for the client.
+
+It's important to note that each request and response are independent from each other and are unique overall. Because of this, HTTP requests and responses are considered **stateless**, meaning that the requests and responses themselves do not keep track of the data that has previously been sent through requests and responses.
+
+**For example, you type a URL into your web browser and hit enter. This is what follows:**
+1. An HTTP `GET` request is sent to the host server specified by the URL given.
+2. The server then uses the HTTP request to determine where to locate the requested resources.
+3. The server then sends an HTTP response back including relevant information and the resources requested back to the client.
+4. The client receives the HTTP response from the server and uses it to render the GUI for you, the user.
+
 ### What is a Status Code?
+
+A status code is a 3 digit code returned with an HTTP response, in the first line following the HTTP version and before the status message. This code represents the general outcome of an HTTP request, giving context to what is being returned in the HTTP response and the overall results of the HTTP request.
+
+**For example:** `HTTP/1.1 200 OK`
+
+The `200` is the status code in the above example. The `200` means the resource requested by the HTTP request was located and successfully returned and fulfilled.
+
+Status codes are grouped by their first digits. With each first digit representing a different genre of outcome from an HTTP request.
+
+**For example:**
+`2xx` - Represents successful outcomes from an HTTP request
+`3xx` - Represents the need for further action to be taken
+`4xx` - Represents client errors in the HTTP request
+`5xx` - Represents server errors
 
 ### Give Some Examples of Common Status Codes
 
+**Some common status codes are:**
+
+- `200`: The resource requested by the HTTP request was located and successfully returned and fulfilled with the HTTP response
+- `301`: The resource has been moved permanently to a different URL path
+- `302`: The resource has been moved temporarily to a different URL path
+- `404`: The resource requested was not found
+
 ### What is 'State' in Context to The Web?
+
+At the highest-level, *'state'* in regards to the web, refers to the perception that a browser is updating the GUI dynamically in real time as opposed to refreshing and re-updating each time a change is made in the web application. The browser appears to be keeping track of details and keeping the current user session persistent. The browser (client) and server some how know that you're still logged in despite going to different pages within the same host site and seem to be updating current information and visuals on the spot in real-time.
+
+On a level below this, despite HTTP being a stateless protocol, it's as if the HTTP requests and responses know about each other and that they themselves are keeping track of the state of the current session. The browser is making HTTP requests and the server is giving HTTP responses, but for some reason the brower doesn't appear to be refreshing or reloading these responses and some how the browser and server know the state of the session you're having. You're still logged in and the web app seems to *"remember"* where you had left off.
 
 ### How is State Simulated?
 
+State on the web is simulated through a 2 main techniques. One is the use of cookies and the other is through the use of AJAX.
+
+**Cookies:**
+
+Cookies can be thought of as *"session ids"* that relay specific information associated with the current web session between client and server. Here's how they work:
+
+When sending the intial HTTP request to a server for a web page, a regular HTTP `GET` request is sent. On the HTTP response, the server sends back the expected HTTP response, but with values for the `set-cookie` header field. These values sent back in the response are stored by the client. Each subsequent HTTP request within the given session will now send a `Cookie` header field with values reflecting the `set-cookie` values that were sent in the previous response(s). Upon receiving these HTTP requests, the server can then use the `Cookie` value to determine the *"state"* of the current session and send back relevant resources and data pertaining to that session. The server does this by comparing the `Cookie` value against `set-cookie` values stored. 
+
+**AJAX**
+
+AJAX (Asynchronous JavaScript and XML) is a technique used to simulate state in a web app session. AJAX acheives this through JavaScript running asynchonously on the client-side to more dynamically render incoming HTTP responses. The HTTP requests and responses look the same, the difference here is that instead of the browser rendering the HTTP responses and rendering the page, JavaScript running client-side is making the changes dynamically using the DOM API. 
+
 ### What is AJAX (ASynchronous JavaScript And XML)?
+
+AJAX (Asynchronous JavaScript and XML) is a technique used to simulate state in a web app session. AJAX acheives this through JavaScript running asynchonously on the client-side to more dynamically render incoming HTTP responses. The HTTP requests and responses look the same, the difference here is that instead of the browser rendering the HTTP responses and rendering the page, JavaScript running client-side is making the changes dynamically using the DOM API. 
 
 ### What is an HTTP Method?
 
+An HTTP method represents the type of HTTP request being made. HTTP methods are specified with HTTP requests in the first line. The HTTP method is the first string of text in the first line followed by the path and HTTP version being used.
+
+The type of request/method indicates the desired actions to be performed by a server upon receiving the HTTP request.
+
+**Some examples of common HTTP methods are:**
+- `GET`
+- `POST`
+- `PUT`
+- `DELETE`
+
 ### What is a `GET` Request?
 
+A `GET` request is a kind of HTTP method that is used when asking for resources to be returned from a server in the HTTP response.
+
 ### What is a `POST` Request?
+
+A `POST` request is a kind of HTTP method that is used when sending information to a server for it to process.
 
 ------------
 ------------
