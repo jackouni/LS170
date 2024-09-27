@@ -199,53 +199,63 @@ HTTP within the client-server model is used to establish different methods for a
 
 ### What is TCP?
 
-TCP (Transmission Control Protocol) is a protocol used at the transport layer to establish a connection between server and client.
+TCP (Transmission Control Protocol), protocol used at the transport layer to establish a reliable connection between client and server, as well as bringing integrity to the messages being sent between client and server through techniques like packet sequencing and acknowledgements.
+
+TCP is known as a *connection-based protocol* as its main objective is to create and establish a consistent and reliable connection between client and server over the course of a session.
 
 ### What is UDP?
 
+UDP (User Datagram Protocol), is a protocol used at the transport layer to send packets of data from client to server more efficiently at the cost of reliability and data integrity. 
+
+UDP is known as a *connectionless protocol* because it doesn't establish a connection between client and host, its main objective is to package and send data to the recipient, with less focus on trying to account for any lost or corrputed data along the journey.
+
 ### Similarities and Differences of TCP and UDP?
+
+TCP and UDP are both transport layer protocol. Both have the task of sending messages of data between client and server.
+
+**Differences:**
+
+- TCP is a *connection-based protocol*, while UDP is a *connectionless protocol*
+
+- TCP establishes a reliable and stateful connection between client and server before and throughout the session, while UDP sends data to the recipient with less priority on establishing a reliable connection or stateful-ness.
+
+- TCP prioritizes reliable and high integrity connections and data transmission between a client and server at the cost of efficiency. While, UDP prioritizes efficiency at the cost of reliability and integrity of connections and data transmission between a client and server.
 
 ### What is the TCP Three-way Handshake?
 
-### What Problem Does the TCP Three-way Handshake Solve?
+The TCP three-way handshake is a technique used by TCP to establish a connection between client and server before the the sending of packets.
 
-The three-way handshake solves a few problems for network reliability.
+**The three-way handshake at a high-level works like this:**
 
-- **Problem 1: Is a Message Received By a Recipient?**
-The first problem is that a message can be sent across a channel but may become corrupt or not make it to the recipient. This is a problem because the sender may never know if their message successfully made it to the recipient. Because of this dilemma, if the sender decides to send the next message it may be out of order or out of context from the recipient not recieving the first message, rendering the next message unreliable or un-intepretable. The sender may also just decide not to send the next message 
+1. The client sends a `SYN` to the server. 
+2. Upon receiving the `SYN` from the client, the server sends back a `SYN-ACK`.
+3. Upon  receiving the `SYN-ACK` from the server, the client sends an `ACK` to the server.
 
+This process allows for the client to check if the server is ready and set up to make a connection and if so, then the server confirms that the client is ready to start the connection. Then lastly, the client confirms with the server that they're both ready to start the connection.
 
-- **Solution 1: Message Acknowledgement From Recipient**
-The solution here could be to send a message and have the recipient send an *acknowledgement* back, that way the sender knows that the first message made it to the recipient, and that it would be appropriate to send the next message. The sender can also know that the next message will make sense with the context of the first message being received by the recipient.
+### What Are Some of Services TCP Provides?
 
+- Packet ordering/sequencing
+- Error checking
+- Establishing connection reliability
+- *Flow control*
+- *Congestion avoidance*
+- Multiplexing
 
-- **Problem 2: Did an Acknowledgement Become Corrupted?**
-The problem with *solution 1 on it's own* is that the first message or the acknowledgement may become corrupt or lost in transit. This way the recipient never receives the acknowledgement. This breaks the system of reliability, now the sender doesn't know if the recipient ever got their first message and doesn't know if they should send the next message. This now leads to the original problem of an unreliable or un-intepretable message being sent.. 
-
-
-- **Solution 2: "Time-outs"**
-A rule is enacted that states: *"If the acknowledgement is not received in a specified amount of time, resend the first message"*
-Now, if the first message is lost or corrupted, the sender waits a certain amount of time to resend it and hopefully gets an acknowledgement within the specified time frame, to confirm it got delivered this time. Like wise, if the ackonwledgement is lost or corrupted in transit, the sender can follow the same rule and resend the first message.
-
-
-- **Problem 3: Duplicates**
-Let's say the recipient receives the first message and sends the acknowledgement. As the acknowledgement is on its way the time frame for the acknowledgement expires and times-out. Now, the recipient resends the first message again. Whether the ackonwledgement gets corrupted, lost or times-out the recipient in this scenario is likely to receive a duplicate of the first message.
-
-
-- **Solution 3: Sequence Numbers**
-The solution to the last problem is for the sender to send a *sequence number* with the first message. This sequence number can be thought of as a unique ID for a message, it also helps the recipient determine its order within the other received messages. Now if the acknowledgement times-out or is lost or corrupted, the sender can send the first message again with the exact same sequence number. If the receiver receives the duplicate message they can check the sequence number and know that it's a duplicate and send another acknowledgement.
-
-After receiving the ackonwledgement the sender can send the next message.
-
-This is essentially the thee-way handshake of TCP.
-
-This protocol makes teh connection and message sending reliable.
-
-It's important to note that in use, messages aren't sent 1-by-1 after each acknowledgement but are sent altogether or in consecutive order. This makes the system more effient, and the reliability is still kept by using the same three-way handshake for each message. With the sequence number the order of these messsages can also be made on the receiver's end even if some messages make it there faster or slower than others. This is known as  *pipe-lining*. There are different pipe-lining techniques, but this is beyond the scope of this lesson.
+### What Problem Does TCP Solve In Terms of Packet Reliability?
 
 ### What is Flow Control?
 
-### What is Flow Congestion Avoidance?
+Flow control is a mechanism in networking used to control the rate of data transmission between a server and client based on the buffer window size of each side. When a client receives more packets then it can process, the packets are kept in a buffer awaiting to be processed. If the buffer overfills the overflowing packets are essentially lost. 
+
+In the context of TCP, the size of the buffers is communicated through the `WINDOW` flag in the TCP segments sent back and forth. If the `WINDOW` size is limited then the rate of data transmission is reduced, otherwise it can be increased for more efficency. This is done to increase efficiency and limit the use of retransmitting data.
+
+### What is Congestion Control?
+
+Congestion avoidance is a mechanism in networking used to control the rate of data being transmitted based on the network's conditions. 
+If the network is congested, the rate at which packets are sent out across the network is minimized and potentially reduced in size too. To transport packets across a network, the packets must hop from router to router. If the packets can't be processed quick enough by the router then they are held in the router's buffer awaiting to be processed. If the buffer becomes overfilled, those packets are essentially lost.
+
+In context to TCP, TCP takes the number of retramissions as a signal to either limit or increase the rate at which it's transmitting data across a network. This helps ensure better effiency across the network.
 
 ------------
 ------------
@@ -536,10 +546,6 @@ A `POST` request is a kind of HTTP method that is used when sending information 
 ### What Are Security Risks Associated with HTTP?
 
 ### What is TLS (Transport Layer Security)?
-
-### What is Symetric Encryption?
-
-### What is Asymetric Encryption?
 
 ### What is HTTPS?
 
